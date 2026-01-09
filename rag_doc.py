@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from langchain_community.document_loaders import UnstructuredPDFLoader
+from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
@@ -19,7 +19,7 @@ llm = ChatGroq(
 )
 
 def process_document(file_path):
-    loader = UnstructuredPDFLoader(f"{working_dir}/{file_path}")
+    loader = PyPDFLoader(f"{working_dir}/{file_path}")
     documents = loader.load()
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
@@ -56,3 +56,4 @@ def answer_question(user_question):
 
     response = retrieval_chain.invoke({"input": user_question})
     return response["answer"]
+
